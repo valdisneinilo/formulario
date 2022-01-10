@@ -1,14 +1,16 @@
 import { useState } from "react";
 import styled from "styled-components";
+import {ContainerButton} from '../../index'
 import {
   TextField,
   InputLabel,
   Select,
   MenuItem,
   FormControl,
+  Button,
 } from "@mui/material";
 
-const Login = () => {
+const Login = ({etapa, setEtapa}) => {
   const [estado, setEstado] = useState("");
   const [cidade, setCidade] = useState("");
   const [bairro, setBairro] = useState("");
@@ -18,7 +20,7 @@ const Login = () => {
   const [cepErro, setCepErro] = useState(false);
 
   async function formatarCEP(cep) {
-    const re = /^([\d]{2})\.?([\d]{3})\-?([\d]{3})/;
+    const re = /^([\d]{2})\.?([\d]{3})-?([\d]{3})/;
 
     if (re.test(cep)) {
       const cepValue = cep.replace(re, "$1.$2-$3");
@@ -147,6 +149,34 @@ const Login = () => {
         value={numero}
         onChange={({ target }) => setNumero(target.value)}
       />
+      <ContainerButton>
+
+        <Button
+          fullWidth
+          color="primary"
+          variant="contained"
+          size="large"
+          disabled={false}
+          style={{ marginTop: ".5rem", color: "#fff" }}
+          onClick={() => setEtapa(etapa - 1)}
+
+        >
+          Voltar
+        </Button>
+
+
+        <Button
+            fullWidth
+            color="primary"
+            variant="contained"
+            size="large"
+            disabled={false}
+            style={{ marginTop: ".5rem", color: "#fff" }}
+            onClick={() => setEtapa(etapa + 1)}
+        >
+          Próximo
+        </Button>
+      </ContainerButton>
     </>
   );
 };

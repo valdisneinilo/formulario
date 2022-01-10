@@ -2,9 +2,12 @@ import { useState } from "react";
 import { TextField, FormControlLabel, Switch } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import styled from 'styled-components'
+import {ContainerButton} from '../../index'
+import { Button } from "@mui/material";
 
 
-const Login = () => {
+
+const Login = ({etapa,setEtapa}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [promocoes, setPromocoes] = useState(true);
@@ -112,6 +115,20 @@ const Login = () => {
         onClick={mostrarSenha}
         style={{cursor:"pointer"}}/>
       </ContainerOpcoesShowPassword>
+
+      <ContainerButton>
+        <Button
+            fullWidth
+            color="primary"
+            variant="contained"
+            size="large"
+            disabled={false}
+            style={{ marginTop: ".5rem", color: "#fff" }}
+            onClick={() => setEtapa(etapa + 1)}
+          >
+            Próximo
+          </Button>
+      </ContainerButton>
     </>
   );
 };

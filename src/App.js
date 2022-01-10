@@ -1,8 +1,10 @@
+import React from "react"
 import Form from "./components/Form";
 import Header from "./components/Header";
 import styled from "styled-components";
 
 function App() {
+
   return (
     <Container>
       <Header />
@@ -10,6 +12,7 @@ function App() {
     </Container>
   );
 }
+
 
 const Container = styled.div`
   * {

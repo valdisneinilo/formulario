@@ -1,49 +1,71 @@
 import Login from "./Components/DadosLogin";
 import Pessoal from "./Components/Pessoal";
 import Endereco from "./Components/Endereco";
-import { Button, Stepper,Step,StepLabel } from "@mui/material";
+import Confirmacao from './Components/Confirmacao';
+import {Stepper, Step, StepLabel } from "@mui/material";
+import styled from "styled-components";
 
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 
 const Form = () => {
   const [etapa, setEtapa] = useState(0);
-  const formularioAtual = [<Login />, <Pessoal />, <Endereco />];
-
-  function handleFetch() {
-    console.log("finalizado");
-  }
   
+  const formularioAtual = [
+    <Login etapa={etapa} setEtapa={setEtapa}/>, 
+    <Pessoal etapa={etapa} setEtapa={setEtapa}/>, 
+    <Endereco etapa={etapa} setEtapa={setEtapa}/>, 
+    <Confirmacao etapa={etapa} setEtapa={setEtapa}/>
+  ];
 
-  function handleEtapas() {
-    if (etapa === 2) {
-      return handleFetch();
-    } else {
-      setEtapa(etapa + 1);
+
+  
+  // const state = useSelector((state) => state);
+  // const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(etapa)
+    if (etapa === 4) {
+      console.log("finalizado");
+    } 
+
+    if(etapa === 1){
+      console.log('olá')
+      // dispatch({ type: 'somar', payload: 25 });
     }
-  }
+
+    
+  }, [etapa]);
 
   return (
     <form>
-
-      <Stepper activeStep={etapa} style={{marginBottom:"50px"}} >
-        <Step><StepLabel>Dados de login</StepLabel></Step>
-        <Step><StepLabel> Dados pessoais</StepLabel></Step>
-        <Step><StepLabel>Endereço</StepLabel></Step>
+      <Stepper activeStep={etapa} style={{ marginBottom: "50px" }}>
+        <Step>
+          <StepLabel>Dados de login</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel> Dados pessoais</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Endereço</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Confirmação</StepLabel>
+        </Step>
       </Stepper>
+
       {formularioAtual[etapa]}
-      <Button
-        fullWidth
-        color="primary"
-        variant="contained"
-        size="large"
-        disabled={false}
-        style={{ marginTop: ".5rem", color: "#fff" }}
-        onClick={handleEtapas}
-      >
-        {etapa !== 2 ? "Próximo" : "Finalizar cadastro"}
-      </Button>
+      
     </form>
   );
 };
 
+export const ContainerButton = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  Button {
+    margin: 0 0.2rem;
+  }
+`;
 export default Form;

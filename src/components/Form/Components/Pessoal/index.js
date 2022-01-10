@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { TextField } from "@mui/material";
+import { TextField,Button } from "@mui/material";
+import {ContainerButton} from '../../index'
 
-const Login = () => {
+const Login = ({etapa,setEtapa}) => {
   const [nome, setNome] = useState("");
   const [sobreNome, setSobreNome] = useState("");
   const [cpf, setCpf] = useState("");
@@ -94,6 +95,34 @@ const Login = () => {
         onChange={({ target }) => setCpf(target.value)}
         onBlur={({ target }) => validateCpf(target.value)}
       />
+      <ContainerButton>
+
+        <Button
+          fullWidth
+          color="primary"
+          variant="contained"
+          size="large"
+          disabled={false}
+          style={{ marginTop: ".5rem", color: "#fff" }}
+          onClick={() => setEtapa(etapa - 1)}
+
+        >
+          Voltar
+        </Button>
+
+
+        <Button
+            fullWidth
+            color="primary"
+            variant="contained"
+            size="large"
+            disabled={false}
+            style={{ marginTop: ".5rem", color: "#fff" }}
+            onClick={() => setEtapa(etapa + 1)}
+        >
+          Próximo
+        </Button>
+      </ContainerButton>
     </>
   );
 };
