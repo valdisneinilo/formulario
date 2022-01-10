@@ -1,40 +1,47 @@
-import Login from "./Login";
-import Pessoal from "./Pessoal"
-import Endereco from "./Endereco"
+import Login from "./Components/DadosLogin";
+import Pessoal from "./Components/Pessoal";
+import Endereco from "./Components/Endereco";
+import { Button, Stepper,Step,StepLabel } from "@mui/material";
 
-import {useState, useEffect} from "react";
+import { useState } from "react";
 
 const Form = () => {
+  const [etapa, setEtapa] = useState(0);
+  const formularioAtual = [<Login />, <Pessoal />, <Endereco />];
 
-  const [etapa, setEtapa] = useState(1);
-  const [form, setForm] = useState(null);
+  function handleFetch() {
+    console.log("finalizado");
+  }
+  
 
-  useEffect(() => {
-    switch (etapa) {
-      case 1:
-        setForm(<Login/>)
-        break 
-      case 2:
-        setForm(<Pessoal/>)
-        break
-      case 3:
-        setForm(<Endereco/>)
-        break 
-      default:
-        break;
+  function handleEtapas() {
+    if (etapa === 2) {
+      return handleFetch();
+    } else {
+      setEtapa(etapa + 1);
     }
-   
-  }, [etapa])
-
- 
+  }
 
   return (
-    <form  >
+    <form>
 
-      {form}
-     {/* <Login/>
-     <Pessoal/>
-     <Endereco/> */}
+      <Stepper activeStep={etapa} style={{marginBottom:"50px"}} >
+        <Step><StepLabel>Dados de login</StepLabel></Step>
+        <Step><StepLabel> Dados pessoais</StepLabel></Step>
+        <Step><StepLabel>Endereço</StepLabel></Step>
+      </Stepper>
+      {formularioAtual[etapa]}
+      <Button
+        fullWidth
+        color="primary"
+        variant="contained"
+        size="large"
+        disabled={false}
+        style={{ marginTop: ".5rem", color: "#fff" }}
+        onClick={handleEtapas}
+      >
+        {etapa !== 2 ? "Próximo" : "Finalizar cadastro"}
+      </Button>
     </form>
   );
 };

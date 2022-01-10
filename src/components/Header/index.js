@@ -13,6 +13,7 @@ const HeaderContainer = styled.header`
   h1 {
     font-size: 2.5rem;
     font-family: Georgia, "Times New Roman", Times, serif;
+    margin-bottom: 2rem;
 
     &::after {
       content: "";
