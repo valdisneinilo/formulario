@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import {ContainerButton} from '../../index'
 import { Button } from "@mui/material";
+import styled from 'styled-components'
 
 
 
@@ -10,18 +11,21 @@ const Index = ({etapa, setEtapa}) => {
 
     return (
       <>
-        <ul>
-          <li>Email: {state.email}</li>
-          <li>Senha: {state.password}</li>
-          <li>Nome: {state.nome}</li>
-          <li>Sobrenome: {state.sobreNome}</li>
-          <li>CPF: {state.cpf}</li>
-          <li>Cep: {state.cep}</li>
-          <li>Estado: {state.estado}</li>
-          <li>Cidade: {state.cidade}</li>
-          <li>Rua: {state.rua}</li>
-          <li>Numero: {state.numero}</li>
-        </ul>
+        <Container>
+          <li><strong>Email:</strong> &nbsp; {state.email}</li>
+          <li><strong>Senha:</strong> &nbsp; {state.password}</li>
+          <li><strong>Nome:</strong> &nbsp; {state.nome}</li>
+          <li><strong>Sobrenome:</strong> &nbsp; {state.sobreNome}</li>
+          <li><strong>CPF:</strong> &nbsp; {state.cpf}</li>
+          <li><strong>Cep:</strong> &nbsp; {state.cep}</li>
+          <li><strong>Estado:</strong> &nbsp; {state.estado}</li>
+          <li><strong>Cidade:</strong> &nbsp; {state.cidade}</li>
+          <li><strong>Rua:</strong> &nbsp; {state.rua}</li>
+          <li><strong>Numero:</strong> &nbsp; {state.numero}</li>
+          <li><strong>Promoções:</strong> &nbsp; {state.promocoes}</li>
+          <li><strong>Novidades:</strong> &nbsp; {state.novidades}</li>
+
+        </Container>
 
         <ContainerButton>
 
@@ -54,5 +58,10 @@ const Index = ({etapa, setEtapa}) => {
       </>
     )
 }
+
+
+const Container = styled.ul`
+
+`;
 
 export default Index;

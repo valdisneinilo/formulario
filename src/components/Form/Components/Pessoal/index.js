@@ -1,12 +1,31 @@
 import { useState } from "react";
 import { TextField,Button } from "@mui/material";
-import {ContainerButton} from '../../index'
+import {ContainerButton} from '../../index';
+import {useSelector, useDispatch} from 'react-redux';
 
 const Login = ({etapa,setEtapa}) => {
   const [nome, setNome] = useState("");
   const [sobreNome, setSobreNome] = useState("");
   const [cpf, setCpf] = useState("");
-  const [erroCpf, setErroCpf] = useState(true);
+  const [erroCpf, setErroCpf] = useState(false);
+  const [erro, setErro] = useState(null);
+
+  const data = useSelector(state => state);
+  const dispatch = useDispatch();
+
+  function handleClick(){
+
+    if(nome.length <=0 || sobreNome.length <=0 || cpf.length <=0){
+      setErro("Preencha todos os campos")
+      return erro
+    }else if(erroCpf === true){
+      setErro('Este CPF é inválido')
+    }else{
+      dispatch({type: 'PESSOAL', nome: nome, sobreNome: sobreNome, cpf: cpf})
+      setEtapa(etapa + 1)
+
+    }
+  }
 
   function validateCpf(cpf) {
     const re = /^([\d]{3})\.?([\d]{3})\.?([\d]{3})-?([\d]{2})/;
@@ -15,16 +34,14 @@ const Login = ({etapa,setEtapa}) => {
       setCpf(cpfValue);
     }
     if (typeof cpf !== "string") {
-      setErroCpf(null);
-      setErroCpf(false);
+      setErroCpf(true);
       return erroCpf;
     }
 
     cpf = cpf.replace(/[^\d]+/g, "");
 
     if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) {
-      setErroCpf(null);
-      setErroCpf(false);
+      setErroCpf(true);
       return erroCpf;
     }
 
@@ -49,7 +66,7 @@ const Login = ({etapa,setEtapa}) => {
       rest(10, 2) !== validator[0] || rest(11, 1) !== validator[1]
     );
     setErroCpf(null);
-    setErroCpf(response);
+    setErroCpf(!response);
 
     return erroCpf;
   }
@@ -88,8 +105,8 @@ const Login = ({etapa,setEtapa}) => {
         type="text"
         required
         fullWidth
-        error={!erroCpf}
-        helperText={erroCpf ? "" : "Digite um CPF válido"}
+        error={erroCpf}
+        helperText={erroCpf ? "Digite um CPF válido" : ""}
         style={{ marginBottom: ".5rem" }}
         value={cpf}
         onChange={({ target }) => setCpf(target.value)}
@@ -112,13 +129,13 @@ const Login = ({etapa,setEtapa}) => {
 
 
         <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            size="large"
-            disabled={false}
-            style={{ marginTop: ".5rem", color: "#fff" }}
-            onClick={() => setEtapa(etapa + 1)}
+          fullWidth
+          color="primary"
+          variant="contained"
+          size="large"
+          disabled={false}
+          style={{ marginTop: ".5rem", color: "#fff" }}
+          onClick={handleClick}
         >
           Próximo
         </Button>

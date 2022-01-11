@@ -18,22 +18,11 @@ const Form = () => {
     <Confirmacao etapa={etapa} setEtapa={setEtapa}/>
   ];
 
-
-  
-  // const state = useSelector((state) => state);
-  // const dispatch = useDispatch();
-
   useEffect(() => {
     console.log(etapa)
     if (etapa === 4) {
       console.log("finalizado");
     } 
-
-    if(etapa === 1){
-      console.log('olá')
-      // dispatch({ type: 'somar', payload: 25 });
-    }
-
     
   }, [etapa]);
 

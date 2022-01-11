@@ -4,17 +4,39 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import styled from 'styled-components'
 import {ContainerButton} from '../../index'
 import { Button } from "@mui/material";
+import { useDispatch} from 'react-redux'
 
 
 
 const Login = ({etapa,setEtapa}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordRepet, setPasswordRepet] = useState("");
   const [promocoes, setPromocoes] = useState(true);
   const [novidades, setNovidades] = useState(true);
   const [valuePassword, setValuePassword] = useState(false);
-  const [errorEmail, setErrorEmail] = useState(true);
+  const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
+  const [erro, setErro] = useState(null);
+
+  const dispatch = useDispatch();
+
+  function handleClick(state) {
+    if(email.length <= 0 || password.length <= 0){
+      setErro('Preencha todos os campos')
+      return erro
+    }else if(errorEmail){
+      setErro("Este e-mail é inválido");
+      return erro
+    }else if(password !== passwordRepet){
+      setErro("Suas senhas estão diferentes")
+      return erro
+    }else{
+      dispatch({type: 'DADOS_LOGIN', email: email, password: password, promocoes: promocoes, novidades: novidades})
+      setEtapa(etapa + 1)
+    }
+  }
+  
 
 
   function mostrarSenha(){
@@ -28,7 +50,7 @@ const Login = ({etapa,setEtapa}) => {
     if(email.length <=0){
       setErrorEmail(true)
     }else{
-      setErrorEmail(res)
+      setErrorEmail(!res)
     }
     return res
   }
@@ -49,8 +71,8 @@ const Login = ({etapa,setEtapa}) => {
         id="email"
         type="email"
         required
-        helperText={errorEmail? '' : "Digite um email válido"}
-        error={!errorEmail}
+        helperText={errorEmail? 'Digite um email válido' : ""}
+        error={errorEmail}
         variant="outlined"
         autoFocus
         fullWidth
@@ -81,6 +103,8 @@ const Login = ({etapa,setEtapa}) => {
         variant="outlined"
         fullWidth
         style={{ marginBottom: ".5rem" }}
+        value={passwordRepet}
+        onChange={({ target }) => setPasswordRepet(target.value)}
         onBlur={handleBlurPassword}
         error={errorPassword}
         helperText={errorPassword? 'Senhas diferentes!' : ""}
@@ -122,13 +146,13 @@ const Login = ({etapa,setEtapa}) => {
             color="primary"
             variant="contained"
             size="large"
-            disabled={false}
             style={{ marginTop: ".5rem", color: "#fff" }}
-            onClick={() => setEtapa(etapa + 1)}
+            onClick={handleClick}
           >
             Próximo
           </Button>
       </ContainerButton>
+      {erro}
     </>
   );
 };

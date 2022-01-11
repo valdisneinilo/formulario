@@ -10,6 +10,8 @@ import {
   Button,
 } from "@mui/material";
 
+import {useSelector, useDispatch} from 'react-redux';
+
 const Login = ({etapa, setEtapa}) => {
   const [estado, setEstado] = useState("");
   const [cidade, setCidade] = useState("");
@@ -18,6 +20,35 @@ const Login = ({etapa, setEtapa}) => {
   const [numero, setNumero] = useState("");
   const [cep, setCep] = useState("");
   const [cepErro, setCepErro] = useState(false);
+  const [erro, setErro] = useState(null)
+
+  const data = useSelector(state => state);
+  const dispatch = useDispatch();
+
+  function handleClick(){
+    if(cep.length <=0 ||
+        estado.length <= 0 ||
+        cidade.length <=0 ||
+        bairro.length <=0 ||
+        rua.length <=0 ||
+        numero.length <=0){
+          setErro("Preencha todos os campos");
+          return erro;
+        }else if(cepErro === true){
+          setErro("Este cep é inválido");
+          return erro;
+        }else{
+            dispatch({ type: 'ENDERECO', 
+            cep: cep, 
+            estado: estado, 
+            cidade: cidade,
+            bairro: bairro, 
+            rua:rua, 
+            numero: numero,
+          })
+          setEtapa(etapa + 1)
+        }
+  }
 
   async function formatarCEP(cep) {
     const re = /^([\d]{2})\.?([\d]{3})-?([\d]{3})/;
@@ -172,11 +203,12 @@ const Login = ({etapa, setEtapa}) => {
             size="large"
             disabled={false}
             style={{ marginTop: ".5rem", color: "#fff" }}
-            onClick={() => setEtapa(etapa + 1)}
+            onClick={handleClick}
         >
           Próximo
         </Button>
       </ContainerButton>
+      {erro}
     </>
   );
 };
