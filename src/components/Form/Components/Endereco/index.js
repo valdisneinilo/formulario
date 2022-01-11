@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 
-import {useSelector, useDispatch} from 'react-redux';
+import { useDispatch} from 'react-redux';
 
 const Login = ({etapa, setEtapa}) => {
   const [estado, setEstado] = useState("");
@@ -22,7 +22,6 @@ const Login = ({etapa, setEtapa}) => {
   const [cepErro, setCepErro] = useState(false);
   const [erro, setErro] = useState(null)
 
-  const data = useSelector(state => state);
   const dispatch = useDispatch();
 
   function handleClick(){
@@ -61,7 +60,7 @@ const Login = ({etapa, setEtapa}) => {
       const novoCep = cep.replace(/\D/g, "");
       const validacep = /^[0-9]{8}$/;
       if (validacep.test(novoCep)) {
-        const result = await fetch(`http://viacep.com.br/ws/${novoCep}/json/`);
+        const result = await fetch(`https://viacep.com.br/ws/${novoCep}/json/`);
         const data = await result.json();
         setEstado(data.uf);
         setCidade(data.localidade);
