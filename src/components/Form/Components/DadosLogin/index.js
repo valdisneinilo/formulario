@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { TextField, FormControlLabel, Switch } from "@mui/material";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import styled from 'styled-components'
-import {ContainerButton} from '../../index'
-import { Button } from "@mui/material";
-import { useDispatch} from 'react-redux'
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import styled from "styled-components";
+import { ContainerButton } from "../../index";
+import { Button, Alert } from "@mui/material";
+import { useDispatch } from "react-redux";
 
-
-
-const Login = ({etapa,setEtapa}) => {
+const Login = ({ etapa, setEtapa }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepet, setPasswordRepet] = useState("");
@@ -22,45 +20,73 @@ const Login = ({etapa,setEtapa}) => {
   const dispatch = useDispatch();
 
   function handleClick(state) {
-    if(email.length <= 0 || password.length <= 0){
-      setErro('Preencha todos os campos')
+    if (email.length <= 0 || password.length <= 0) {
+
+      setErro(<Alert severity="error"> Preencha todos os campos!</Alert>);
+      setTimeout(() => {
+        setErro('');
+      }, 3000)
+      
+      return erro;
+    } else if (errorEmail) {
+
+      setErro(<Alert severity="error">Email inválido!</Alert>);
+      setTimeout(() => {
+        setErro('');
+      }, 3000)
+
+      return erro;
+    } else if (password !== passwordRepet) {
+
+      setErro(<Alert severity="error"> Suas senhas são diferentes!</Alert>);
+      setTimeout(() => {
+        setErro('');
+      }, 3000)
+
+      return erro;
+    } else if (password.length < 6){
+      setErro(<Alert severity="error"> Sua senha deve ter no mínimo 6 caracteres!</Alert>);
+      setTimeout(() => {
+        setErro('');
+      }, 3000)
+
       return erro
-    }else if(errorEmail){
-      setErro("Este e-mail é inválido");
-      return erro
-    }else if(password !== passwordRepet){
-      setErro("Suas senhas estão diferentes")
-      return erro
-    }else{
-      dispatch({type: 'DADOS_LOGIN', email: email, password: password, promocoes: promocoes, novidades: novidades})
-      setEtapa(etapa + 1)
+    } else {
+
+      dispatch({
+        type: "DADOS_LOGIN",
+        email: email,
+        password: password,
+        promocoes: promocoes,
+        novidades: novidades,
+      });
+      
+      setEtapa(etapa + 1);
     }
   }
-  
 
-
-  function mostrarSenha(){
+  function mostrarSenha() {
     setValuePassword(!valuePassword);
   }
 
-  function validateEmail({target}) {
-    const email = target.value
+  function validateEmail({ target }) {
+    const email = target.value;
     var re = /\S+@\S+\.\S+/;
     const res = re.test(email);
-    if(email.length <=0){
-      setErrorEmail(true)
-    }else{
-      setErrorEmail(!res)
+    if (email.length <= 0) {
+      setErrorEmail(true);
+    } else {
+      setErrorEmail(!res);
     }
-    return res
+    return res;
   }
 
-  function handleBlurPassword({target}){
-    const pass = target.value
-    if(pass !== password){
-      setErrorPassword(true)
-    }else{
-      setErrorPassword(false)
+  function handleBlurPassword({ target }) {
+    const pass = target.value;
+    if (pass !== password) {
+      setErrorPassword(true);
+    } else {
+      setErrorPassword(false);
     }
   }
 
@@ -71,7 +97,7 @@ const Login = ({etapa,setEtapa}) => {
         id="email"
         type="email"
         required
-        helperText={errorEmail? 'Digite um email válido' : ""}
+        helperText={errorEmail ? "Digite um email válido" : ""}
         error={errorEmail}
         variant="outlined"
         autoFocus
@@ -107,10 +133,9 @@ const Login = ({etapa,setEtapa}) => {
         onChange={({ target }) => setPasswordRepet(target.value)}
         onBlur={handleBlurPassword}
         error={errorPassword}
-        helperText={errorPassword? 'Senhas diferentes!' : ""}
-
+        helperText={errorPassword ? "Senhas diferentes!" : ""}
       />
-      
+
       <ContainerOpcoesShowPassword>
         <div>
           <FormControlLabel
@@ -135,33 +160,30 @@ const Login = ({etapa,setEtapa}) => {
           />
         </div>
 
-        <VisibilityIcon  
-        onClick={mostrarSenha}
-        style={{cursor:"pointer"}}/>
+        <VisibilityIcon onClick={mostrarSenha} style={{ cursor: "pointer" }} />
       </ContainerOpcoesShowPassword>
 
       <ContainerButton>
         <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            size="large"
-            style={{ marginTop: ".5rem", color: "#fff" }}
-            onClick={handleClick}
-          >
-            Próximo
-          </Button>
+          fullWidth
+          color="primary"
+          variant="contained"
+          size="large"
+          style={{ marginTop: ".5rem", color: "#fff" }}
+          onClick={handleClick}
+        >
+          Próximo
+        </Button>
       </ContainerButton>
       {erro}
     </>
   );
 };
 
-
 const ContainerOpcoesShowPassword = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;;
+  justify-content: space-between; ;
 `;
 
 export default Login;

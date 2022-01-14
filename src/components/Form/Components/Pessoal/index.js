@@ -1,29 +1,36 @@
 import { useState } from "react";
-import { TextField,Button } from "@mui/material";
-import {ContainerButton} from '../../index';
-import {useSelector, useDispatch} from 'react-redux';
+import { TextField, Button, Alert } from "@mui/material";
+import { ContainerButton } from "../../index";
+import { useSelector, useDispatch } from "react-redux";
 
-const Login = ({etapa,setEtapa}) => {
+const Login = ({ etapa, setEtapa }) => {
   const [nome, setNome] = useState("");
   const [sobreNome, setSobreNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [erroCpf, setErroCpf] = useState(false);
   const [erro, setErro] = useState(null);
 
-  const data = useSelector(state => state);
+  useSelector((state) => state);
   const dispatch = useDispatch();
 
-  function handleClick(){
+  function handleClick() {
+    if (nome.length <= 0 || sobreNome.length <= 0 || cpf.length <= 0) {
+      setErro(<Alert severity="error"> Preencha todos os campos!</Alert>)
+      setTimeout(() => {
+        setErro('')
+      }, 3000)
+      return erro;
+    } else if (erroCpf === true) {
 
-    if(nome.length <=0 || sobreNome.length <=0 || cpf.length <=0){
-      setErro("Preencha todos os campos")
-      return erro
-    }else if(erroCpf === true){
-      setErro('Este CPF é inválido')
-    }else{
-      dispatch({type: 'PESSOAL', nome: nome, sobreNome: sobreNome, cpf: cpf})
-      setEtapa(etapa + 1)
+      setErro(<Alert severity="error">Este CPF é inválido!</Alert>)
 
+      setTimeout(() => {
+        setErro('')
+      }, 3000)
+
+    } else {
+      dispatch({ type: "PESSOAL", nome: nome, sobreNome: sobreNome, cpf: cpf });
+      setEtapa(etapa + 1);
     }
   }
 
@@ -113,7 +120,6 @@ const Login = ({etapa,setEtapa}) => {
         onBlur={({ target }) => validateCpf(target.value)}
       />
       <ContainerButton>
-
         <Button
           fullWidth
           color="primary"
@@ -122,11 +128,9 @@ const Login = ({etapa,setEtapa}) => {
           disabled={false}
           style={{ marginTop: ".5rem", color: "#fff" }}
           onClick={() => setEtapa(etapa - 1)}
-
         >
           Voltar
         </Button>
-
 
         <Button
           fullWidth
@@ -140,6 +144,7 @@ const Login = ({etapa,setEtapa}) => {
           Próximo
         </Button>
       </ContainerButton>
+      {erro}
     </>
   );
 };

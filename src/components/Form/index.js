@@ -1,29 +1,27 @@
 import Login from "./Components/DadosLogin";
 import Pessoal from "./Components/Pessoal";
 import Endereco from "./Components/Endereco";
-import Confirmacao from './Components/Confirmacao';
-import {Stepper, Step, StepLabel } from "@mui/material";
+import Confirmacao from "./Components/Confirmacao";
+import { Stepper, Step, StepLabel } from "@mui/material";
 import styled from "styled-components";
-
 
 import { useState, useEffect } from "react";
 
 const Form = () => {
   const [etapa, setEtapa] = useState(0);
-  
+
   const formularioAtual = [
-    <Login etapa={etapa} setEtapa={setEtapa}/>, 
-    <Pessoal etapa={etapa} setEtapa={setEtapa}/>, 
-    <Endereco etapa={etapa} setEtapa={setEtapa}/>, 
-    <Confirmacao etapa={etapa} setEtapa={setEtapa}/>
+    <Login etapa={etapa} setEtapa={setEtapa} />,
+    <Pessoal etapa={etapa} setEtapa={setEtapa} />,
+    <Endereco etapa={etapa} setEtapa={setEtapa} />,
+    <Confirmacao etapa={etapa} setEtapa={setEtapa} />,
   ];
 
   useEffect(() => {
-    console.log(etapa)
+    console.log(etapa);
     if (etapa === 4) {
       console.log("finalizado");
-    } 
-    
+    }
   }, [etapa]);
 
   return (
@@ -44,7 +42,6 @@ const Form = () => {
       </Stepper>
 
       {formularioAtual[etapa]}
-      
     </form>
   );
 };

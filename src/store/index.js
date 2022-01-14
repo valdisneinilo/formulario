@@ -1,5 +1,4 @@
-import { createStore } from 'redux';
-
+import { createStore } from "redux";
 
 const INITIAL_STATE = {
   email: "",
@@ -20,14 +19,14 @@ const INITIAL_STATE = {
 function dados(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "DADOS_LOGIN":
-      return{ 
+      return {
         ...state,
         email: action.email,
         password: action.password,
         promocoes: action.promocoes,
-        novidades: action.novidades
-      }
-      
+        novidades: action.novidades,
+      };
+
     case "ENDERECO":
       return {
         ...state,
@@ -36,11 +35,10 @@ function dados(state = INITIAL_STATE, action) {
         cidade: action.cidade,
         bairro: action.bairro,
         rua: action.rua,
-        numero: action.numero
-
+        numero: action.numero,
       };
     case "PESSOAL":
-      return{
+      return {
         ...state,
         nome: action.nome,
         sobreNome: action.sobreNome,
@@ -51,9 +49,9 @@ function dados(state = INITIAL_STATE, action) {
   }
 }
 
-
-const store = createStore( dados,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+const store = createStore(
+  dados,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export default store;

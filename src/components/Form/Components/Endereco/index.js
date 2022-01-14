@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import {ContainerButton} from '../../index'
+import { ContainerButton } from "../../index";
 import {
   TextField,
   InputLabel,
@@ -8,11 +8,12 @@ import {
   MenuItem,
   FormControl,
   Button,
+  Alert
 } from "@mui/material";
 
-import { useDispatch} from 'react-redux';
+import { useDispatch } from "react-redux";
 
-const Login = ({etapa, setEtapa}) => {
+const Login = ({ etapa, setEtapa }) => {
   const [estado, setEstado] = useState("");
   const [cidade, setCidade] = useState("");
   const [bairro, setBairro] = useState("");
@@ -20,33 +21,45 @@ const Login = ({etapa, setEtapa}) => {
   const [numero, setNumero] = useState("");
   const [cep, setCep] = useState("");
   const [cepErro, setCepErro] = useState(false);
-  const [erro, setErro] = useState(null)
+  const [erro, setErro] = useState(null);
 
   const dispatch = useDispatch();
 
-  function handleClick(){
-    if(cep.length <=0 ||
-        estado.length <= 0 ||
-        cidade.length <=0 ||
-        bairro.length <=0 ||
-        rua.length <=0 ||
-        numero.length <=0){
-          setErro("Preencha todos os campos");
-          return erro;
-        }else if(cepErro === true){
-          setErro("Este cep é inválido");
-          return erro;
-        }else{
-            dispatch({ type: 'ENDERECO', 
-            cep: cep, 
-            estado: estado, 
-            cidade: cidade,
-            bairro: bairro, 
-            rua:rua, 
-            numero: numero,
-          })
-          setEtapa(etapa + 1)
-        }
+  function handleClick() {
+    if (
+      cep.length <= 0 ||
+      estado.length <= 0 ||
+      cidade.length <= 0 ||
+      bairro.length <= 0 ||
+      rua.length <= 0 ||
+      numero.length <= 0
+    ) {
+      setErro(<Alert severity="error">Preencha todos os campos!</Alert>);
+
+      setTimeout(() => {
+        setErro('')
+      }, 3000)
+      return erro;
+    } else if (cepErro === true) {
+
+      setErro(<Alert severity="error">Este cep é inválido!</Alert>);
+      setTimeout(() => {
+        setErro("");
+
+      }, 3000)
+      return erro;
+    } else {
+      dispatch({
+        type: "ENDERECO",
+        cep: cep,
+        estado: estado,
+        cidade: cidade,
+        bairro: bairro,
+        rua: rua,
+        numero: numero,
+      });
+      setEtapa(etapa + 1);
+    }
   }
 
   async function formatarCEP(cep) {
@@ -180,7 +193,6 @@ const Login = ({etapa, setEtapa}) => {
         onChange={({ target }) => setNumero(target.value)}
       />
       <ContainerButton>
-
         <Button
           fullWidth
           color="primary"
@@ -189,20 +201,18 @@ const Login = ({etapa, setEtapa}) => {
           disabled={false}
           style={{ marginTop: ".5rem", color: "#fff" }}
           onClick={() => setEtapa(etapa - 1)}
-
         >
           Voltar
         </Button>
 
-
         <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            size="large"
-            disabled={false}
-            style={{ marginTop: ".5rem", color: "#fff" }}
-            onClick={handleClick}
+          fullWidth
+          color="primary"
+          variant="contained"
+          size="large"
+          disabled={false}
+          style={{ marginTop: ".5rem", color: "#fff" }}
+          onClick={handleClick}
         >
           Próximo
         </Button>
